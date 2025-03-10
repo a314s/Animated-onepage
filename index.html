@@ -486,9 +486,9 @@
             position: absolute;
             width: 110px;
             height: 110px;
-            background: linear-gradient(135deg, #1a2a3a, #2c3e50); /* Match hero background */
+            background: transparent;
             border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: none;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -496,13 +496,13 @@
             padding: 12px;
             z-index: 10;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: none;
         }
         
         .process-square:hover {
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 12px 25px rgba(0, 102, 204, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+            border: none;
         }
         
         .process-square .animated-icon {
@@ -513,7 +513,7 @@
         }
         
         .process-square .process-title {
-            color: white; /* Changed to white for better contrast */
+            color: white;
             font-size: 1rem;
             font-weight: 600;
             text-align: center;
@@ -521,30 +521,30 @@
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
-        /* Position process squares alternating above and below with better spacing - shifted right by 25px */
+        /* Position process squares alternating above and below with better spacing */
         .process-square-1 {
-            right: calc(56% - 25px);
-            top: 37%; /* Halved distance to path line */
+            left: calc(35% + 60px + 50px); /* logo position (35%) + half logo width (60px) + 50px spacing */
+            top: 37%;
         }
         
         .process-square-2 {
-            right: calc(48% - 25px);
-            bottom: 37%; /* Halved distance to path line */
+            left: calc(35% + 60px + 50px + 130px); /* First process + 130px spacing */
+            bottom: 37%;
         }
         
         .process-square-3 {
-            right: calc(40% - 25px);
-            top: 37%; /* Halved distance to path line */
+            left: calc(35% + 60px + 50px + 260px); /* First process + 260px spacing */
+            top: 37%;
         }
         
         .process-square-4 {
-            right: calc(32% - 25px);
-            bottom: 37%; /* Halved distance to path line */
+            left: calc(35% + 60px + 50px + 390px); /* First process + 390px spacing */
+            bottom: 37%;
         }
         
         .process-square-5 {
-            right: calc(24% - 25px);
-            top: 37%; /* Halved distance to path line */
+            left: calc(35% + 60px + 50px + 520px); /* First process + 520px spacing */
+            top: 37%;
         }
         
         /* Services Section */
