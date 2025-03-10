@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviTechAid - Technical Documentation & Training Solutions</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* One-page specific styles */
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #003366;
+            --accent-color: #00aaff;
+            --text-color: #333333;
+            --light-text: #ffffff;
+            --background-color: #f5f7fa;
+            --card-background: #ffffff;
+            --transition-speed: 0.3s;
+            --building-color: #2c3e50;
+            --building-accent: #34495e;
+            --document-color: #ecf0f1;
+            --document-dark: #bdc3c7;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            background: linear-gradient(-45deg, #f5f7fa, #e8f0ff, #f0f8ff, #f5faff);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .one-page-container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Hero Section - Original (Front of flip card) */
+        .hero-one-page {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            perspective: 2000px;
+        }
+
+        .hero-flip-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 1.5s ease-in-out;
+        }
+
+        .hero-front, .hero-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .hero-front {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--light-text);
+            text-align: center;
+            padding: 0 5%;
+            z-index: 1;
+        }
+
+        .hero-back {
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+            transform: rotateX(180deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-flip-container.flipped {
+            transform: rotateX(180deg);
+        }
+        
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('texture.png');
+            background-size: cover;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .hero-logo {
+            max-width: 280px;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero-description {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+        
+        .hero-cta {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .hero-cta:hover {
+            background-color: #0097e6;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        /* New Hero Back Animation Elements */
+        .flow-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            overflow: visible;
+        }
+
+        .building {
+            width: 120px;
+            height: 200px;
+            background-color: var(--building-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .building-left {
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .building-right {
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        /* Building windows */
+        .window {
+            width: 15px;
+            height: 20px;
+            background-color: rgba(255,255,255,0.7);
+            margin: 10px 5px;
+            display: inline-block;
+        }
+
+        .windows-row {
+            display: flex;
+            margin: 15px 0 5px;
+        }
+
+        /* Building roof */
+        .roof-left, .roof-right {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 30px solid var(--building-color);
+            position: absolute;
+            top: -30px;
+        }
+
+        /* Building door */
+        .door {
+            width: 30px;
+            height: 40px;
+            background-color: var(--building-accent);
+            position: absolute;
+            bottom: 0;
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Center Logo Container */
+        .center-logo-container {
+            position: absolute;
+            top: 50%;
+            left: 35%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+        }
+
+        .logo-spin {
+            width: 120px;
+            height: 120px;
+            animation: spin 10s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(0, 102, 204, 0.5));
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Document flow path */
+        .doc-path {
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            right: 15%;
+            height: 5px;
+            background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        /* Document Container - Added to better control document positioning */
+        .document-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        /* Documents animation - completely revised with proper vertical centering */
+        .document {
+            width: 30px;
+            height: 40px;
+            position: absolute;
+            border-radius: 3px;
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            pointer-events: none;
+            top: calc(50% - 20px); /* Position top edge at center minus half height */
+            transform: rotate(-2deg); /* Only rotation, no translateY */
+            margin-top: 0; /* Reset any margin */
+        }
+
+        /* Base styles for messy documents - enhanced to look more dirty/skewed */
+        .doc-messy {
+            background-color: var(--document-color);
+            border: 1px solid #ccc;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            background-image: 
+                linear-gradient(2deg, transparent 6px, #b0b0b0 6px, #b0b0b0 8px, transparent 8px),
+                linear-gradient(-1deg, transparent 13px, #b0b0b0 13px, #b0b0b0 15px, transparent 15px),
+                linear-gradient(1deg, transparent 20px, #b0b0b0 20px, #b0b0b0 22px, transparent 22px),
+                linear-gradient(-2deg, transparent 27px, #b0b0b0 27px, #b0b0b0 29px, transparent 29px);
+            background-size: 22px 40px;
+            background-position: 4px 0;
+            background-repeat: no-repeat;
+        }
+
+        /* Base styles for clean documents */
+        .doc-straight {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,102,204,0.15);
+            background-image: 
+                linear-gradient(to bottom, transparent 10px, #0066cc 10px, #0066cc 11px, transparent 11px),
+                linear-gradient(to bottom, transparent 16px, #0066cc 16px, #0066cc 17px, transparent 17px),
+                linear-gradient(to bottom, transparent 22px, #0066cc 22px, #0066cc 23px, transparent 23px);
+            background-size: 18px 40px;
+            background-position: 6px 0;
+            background-repeat: no-repeat;
+            opacity: 0.9;
+        }
+
+        /* Add folded corner to odd left documents - enhanced with more dirt */
+        .doc-left-1, .doc-left-3, .doc-left-5 {
+            background-image: 
+                linear-gradient(2deg, transparent 6px, #b0b0b0 6px, #b0b0b0 8px, transparent 8px),
+                linear-gradient(-1deg, transparent 13px, #b0b0b0 13px, #b0b0b0 15px, transparent 15px),
+                linear-gradient(1deg, transparent 20px, #b0b0b0 20px, #b0b0b0 22px, transparent 22px),
+                linear-gradient(-2deg, transparent 27px, #b0b0b0 27px, #b0b0b0 29px, transparent 29px),
+                linear-gradient(135deg, transparent 4px, var(--document-color) 5px),
+                radial-gradient(circle at top left, rgba(150,150,150,0.3) 0, rgba(150,150,150,0.3) 5px, transparent 7px);
+            background-size: 22px 40px, 22px 40px, 22px 40px, 22px 40px, 8px 8px, 10px 10px;
+            background-position: 4px 0, 4px 0, 4px 0, 4px 0, top right, top 5px left 5px;
+            background-repeat: no-repeat;
+            border-color: #bbb; /* Lighter border for worn look */
+        }
+
+        /* Add stain to even left documents - enhanced with more dirt */
+        .doc-left-2, .doc-left-4 {
+            background-image: 
+                linear-gradient(-1deg, transparent 6px, #b0b0b0 6px, #b0b0b0 8px, transparent 8px),
+                linear-gradient(2deg, transparent 13px, #b0b0b0 13px, #b0b0b0 15px, transparent 15px),
+                linear-gradient(-2deg, transparent 20px, #b0b0b0 20px, #b0b0b0 22px, transparent 22px),
+                linear-gradient(1deg, transparent 27px, #b0b0b0 27px, #b0b0b0 29px, transparent 29px),
+                radial-gradient(circle at bottom right, rgba(150,150,150,0.4) 0, rgba(150,150,150,0.4) 3px, transparent 4px),
+                radial-gradient(ellipse at center left, rgba(180,160,120,0.2) 0, rgba(180,160,120,0.2) 8px, transparent 12px);
+            background-size: 22px 40px, 22px 40px, 22px 40px, 22px 40px, 6px 6px, 15px 15px;
+            background-position: 4px 0, 4px 0, 4px 0, 4px 0, right 5px bottom 5px, left 0 center;
+            background-repeat: no-repeat;
+            border-color: #bbb; /* Lighter border for worn look */
+        }
+
+        /* Document animations - revised with gradual fade-in over first 100px of travel */
+        @keyframes doc-move-left {
+            0% { 
+                left: 5%; 
+                top: calc(50% - 20px);
+                opacity: 0; /* Start fully transparent */
+            }
+            10% {
+                left: 8%; 
+                top: calc(50% - 20px);
+                opacity: 0.2; /* Begin fade in */
+            }
+            20% {
+                left: 12%; 
+                top: calc(50% - 20px);
+                opacity: 0.5; /* Continue fade in */
+            }
+            30% {
+                left: 15%; 
+                top: calc(50% - 20px);
+                opacity: 0.9; /* Fully visible after traveling about 100px */
+            }
+            80% { 
+                left: 32%; 
+                top: calc(50% - 20px);
+                opacity: 0.9; 
+            }
+            90% { 
+                left: 32%; 
+                top: calc(50% - 20px);
+                opacity: 0; 
+            }
+            100% { 
+                left: 5%; 
+                top: calc(50% - 20px);
+                opacity: 0; 
+            }
+        }
+
+        @keyframes doc-move-right {
+            0% { 
+                left: 35%; 
+                top: calc(50% - 20px);
+                opacity: 0; 
+            }
+            10% { 
+                left: 35%; 
+                top: calc(50% - 20px);
+                opacity: 1; 
+            }
+            40% { 
+                left: 55%; 
+                top: calc(50% - 20px);
+                opacity: 1; 
+            }
+            80% { 
+                left: 80%; 
+                top: calc(50% - 20px);
+                opacity: 1; 
+            }
+            90% { 
+                left: 85%; 
+                top: calc(50% - 20px);
+                opacity: 0; 
+            }
+            100% { 
+                left: 35%; 
+                top: calc(50% - 20px);
+                opacity: 0; 
+            }
+        }
+
+        /* Apply animations directly */
+        .doc-left-1 {
+            animation: doc-move-left 5s infinite 0s;
+            left: 5%; /* Explicit starting position */
+        }
+        
+        .doc-left-2 {
+            animation: doc-move-left 5s infinite 1s;
+            left: 5%; /* Explicit starting position */
+        }
+        
+        .doc-left-3 {
+            animation: doc-move-left 5s infinite 2s;
+            left: 5%; /* Explicit starting position */
+        }
+        
+        .doc-left-4 {
+            animation: doc-move-left 5s infinite 3s;
+            left: 5%; /* Explicit starting position */
+        }
+        
+        .doc-left-5 {
+            animation: doc-move-left 5s infinite 4s;
+            left: 5%; /* Explicit starting position */
+        }
+
+        .doc-right-1 {
+            animation: doc-move-right 5s infinite 0.5s;
+            left: 35%; /* Explicit starting position */
+        }
+        
+        .doc-right-2 {
+            animation: doc-move-right 5s infinite 1.5s;
+            left: 35%; /* Explicit starting position */
+        }
+        
+        .doc-right-3 {
+            animation: doc-move-right 5s infinite 2.5s;
+            left: 35%; /* Explicit starting position */
+        }
+        
+        .doc-right-4 {
+            animation: doc-move-right 5s infinite 3.5s;
+            left: 35%; /* Explicit starting position */
+        }
+        
+        .doc-right-5 {
+            animation: doc-move-right 5s infinite 4.5s;
+            left: 35%; /* Explicit starting position */
+        }
+        
+        /* Document Process Icons */
+        .process-square {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50); /* Match hero background */
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            z-index: 10;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .process-square:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(0, 102, 204, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .process-square .animated-icon {
+            width: 55px;
+            height: 55px;
+            margin-bottom: 10px;
+            filter: brightness(1.1);
+        }
+        
+        .process-square .process-title {
+            color: white; /* Changed to white for better contrast */
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            margin: 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Position process squares alternating above and below with better spacing - shifted right by 25px */
+        .process-square-1 {
+            right: calc(56% - 25px);
+            top: 37%; /* Halved distance to path line */
+        }
+        
+        .process-square-2 {
+            right: calc(48% - 25px);
+            bottom: 37%; /* Halved distance to path line */
+        }
+        
+        .process-square-3 {
+            right: calc(40% - 25px);
+            top: 37%; /* Halved distance to path line */
+        }
+        
+        .process-square-4 {
+            right: calc(32% - 25px);
+            bottom: 37%; /* Halved distance to path line */
+        }
+        
+        .process-square-5 {
+            right: calc(24% - 25px);
+            top: 37%; /* Halved distance to path line */
+        }
+        
+        /* Services Section */
+        .services-one-page {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 5rem 5%;
+            background-color: #f8fafc;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .service-card-one {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card-one:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 102, 204, 0.15);
+        }
+        
+        .service-icon-one {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .service-icon-one img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .service-card-one h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .service-card-one p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        /* Process Section */
+        .process-one-page {
+            padding: 5rem 5%;
+            background-color: #f0f4f8;
+            text-align: center;
+        }
+        
+        .process-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .process-steps-one {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .process-step-one {
+            flex: 1;
+            min-width: 200px;
+            max-width: 220px;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .process-step-one::after {
+            content: "→";
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            font-size: 2rem;
+            color: var(--primary-color);
+            transform: translateY(-50%);
+        }
+        
+        .process-step-one:last-child::after {
+            display: none;
+        }
+        
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+        }
+        
+        .step-icon img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .process-step-one h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .process-step-one p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* About Section */
+        .about-one-page {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-align: center;
+        }
+        
+        .about-content-one {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .about-one-page h2 {
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+        
+        .about-one-page p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-item {
+            flex: 1;
+            min-width: 200px;
+            max-width: 280px;
+            text-align: center;
+        }
+        
+        .feature-item h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .feature-item p {
+            font-size: 1rem;
+        }
+        
+        /* Contact Section */
+        .contact-one-page {
+            padding: 5rem 5%;
+            background-color: #fff;
+            text-align: center;
+        }
+        
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact-one-page h2 {
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .contact-info-one {
+            margin-bottom: 2rem;
+        }
+        
+        .contact-info-one p {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .contact-info-one a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-info-one a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .social-link:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Footer */
+        .footer-one-page {
+            background-color: #f0f4f8;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+        
+        .footer-logo-one {
+            max-width: 150px;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-one-page p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .services-one-page {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .hero-description {
+                font-size: 1.3rem;
+            }
+
+            .building {
+                width: 90px;
+                height: 150px;
+            }
+
+            .center-logo-container {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-logo {
+                max-width: 220px;
+            }
+            
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            
+            .hero-description {
+                font-size: 1.1rem;
+            }
+            
+            .process-step-one::after {
+                right: auto;
+                bottom: -30px;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%) rotate(90deg);
+            }
+            
+            .services-one-page {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .building {
+                width: 70px;
+                height: 120px;
+            }
+
+            .center-logo-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .window {
+                width: 10px;
+                height: 15px;
+                margin: 5px 3px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .hero-cta {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+
+            .building {
+                width: 50px;
+                height: 90px;
+            }
+
+            .center-logo-container {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        /* New style for body when scrolling is disabled */
+        body.scroll-lock {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="texture-overlay"></div>
+    <div class="one-page-container">
+        <!-- Hero Section -->
+        <section class="hero-one-page">
+            <div class="hero-flip-container">
+                <!-- Front Side (Original Hero) -->
+                <div class="hero-front">
+                    <img src="logo navitechaid-04.svg" alt="NaviTechAid Logo" class="hero-logo">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Innovative solutions to aid the flow of information in your company.</h1>
+                        <p class="hero-description">We transform complex technical knowledge into practical tools, simplifying processes, and ensuring the right information reaches the right people.</p>
+                        <div class="language-selector">
+                            <button class="lang-btn active" data-lang="en">EN</button>
+                            <button class="lang-btn" data-lang="he">HE</button>
+                        </div>
+                        <a href="#contact" class="hero-cta">Contact Us</a>
+                    </div>
+                    <div class="scroll-indicator">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 10L12 15L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Back Side (New Animated Visualization) -->
+                <div class="hero-back">
+                    <div class="flow-container">
+                        <!-- Left Building -->
+                        <div class="building building-left">
+                            <div class="roof-left"></div>
+                            <div class="windows-row">
+                                <div class="window"></div>
+                                <div class="window"></div>
+                            </div>
+                            <div class="windows-row">
+                                <div class="window"></div>
+                                <div class="window"></div>
+                            </div>
+                            <div class="windows-row">
+                                <div class="window"></div>
+                                <div class="window"></div>
+                            </div>
+                            <div class="door"></div>
+                        </div>
+                        
+                        <!-- Path with Documents -->
+                        <div class="doc-path"></div>
+                        
+                        <!-- Document Container - Added to better control document positioning -->
+                        <div class="document-container">
+                            <!-- Animated Messy Documents (Left to Center) -->
+                            <div class="document doc-messy doc-left-1"></div>
+                            <div class="document doc-messy doc-left-2"></div>
+                            <div class="document doc-messy doc-left-3"></div>
+                            <div class="document doc-messy doc-left-4"></div>
+                            <div class="document doc-messy doc-left-5"></div>
+                            
+                            <!-- Animated Neat Documents (Center to Right) -->
+                            <div class="document doc-straight doc-right-1"></div>
+                            <div class="document doc-straight doc-right-2"></div>
+                            <div class="document doc-straight doc-right-3"></div>
+                            <div class="document doc-straight doc-right-4"></div>
+                            <div class="document doc-straight doc-right-5"></div>
+                        </div>
+                        
+                        <!-- Process Squares -->
+                        <div class="process-square process-square-1">
+                            <img src="wired-outline-1142-form-sheet-questionnaire.gif" alt="Assessment" class="animated-icon">
+                            <span class="process-title">Assessment</span>
+                        </div>
+                        
+                        <div class="process-square process-square-2">
+                            <img src="wired-outline-1020-rules-book-guideline (1).gif" alt="Development" class="animated-icon">
+                            <span class="process-title">Development</span>
+                        </div>
+                        
+                        <div class="process-square process-square-3">
+                            <img src="wired-outline-1326-command-window-line copy.gif" alt="Implementation" class="animated-icon">
+                            <span class="process-title">Implementation</span>
+                        </div>
+                        
+                        <div class="process-square process-square-4">
+                            <img src="wired-outline-749-interface-settings copy.gif" alt="Optimization" class="animated-icon">
+                            <span class="process-title">Optimization</span>
+                        </div>
+                        
+                        <div class="process-square process-square-5">
+                            <img src="wired-outline-978-project-management.gif" alt="Management" class="animated-icon">
+                            <span class="process-title">Management</span>
+                        </div>
+                        
+                        <!-- Center Logo -->
+                        <div class="center-logo-container">
+                            <img src="logo spin.svg" alt="NaviTechAid Spinning Logo" class="logo-spin">
+                        </div>
+                        
+                        <!-- Right Building -->
+                        <div class="building building-right">
+                            <div class="roof-right"></div>
+                            <div class="windows-row">
+                                <div class="window"></div>
+                                <div class="window"></div>
+                            </div>
+                            <div class="windows-row">
+                                <div class="window"></div>
+                                <div class="window"></div>
+                            </div>
+                            <div class="windows-row">
+                                <div class="window"></div>
+                                <div class="window"></div>
+                            </div>
+                            <div class="door"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Core Services Section -->
+        <section id="services" class="services-one-page">
+            <div class="service-card-one">
+                <div class="service-icon-one">
+                    <img src="R&D.svg" alt="Knowledge Preservation">
+                </div>
+                <h3>Technical Animations & Visual Simulations</h3>
+                <p>Creating clear 2D & 3D animations for assembly, calibration, and maintenance. Visual representations of invisible processes like optics and electromagnetism.</p>
+            </div>
+            
+            <div class="service-card-one">
+                <div class="service-icon-one">
+                    <img src="Engineering & NPI.svg" alt="Technical Training">
+                </div>
+                <h3>Customized AI Solutions</h3>
+                <p>Smart AI systems to enhance knowledge accessibility and workflow guidance. Offline Large Language Models (LLM) for easy internal knowledge retrieval.</p>
+            </div>
+            
+            <div class="service-card-one">
+                <div class="service-icon-one">
+                    <img src="Manufacturing.svg" alt="AI Solutions">
+                </div>
+                <h3>Information Flow Between Departments</h3>
+                <p>Bridging R&D and Manufacturing – translating engineering knowledge into practical instructions. System integration for streamlined internal information flow.</p>
+            </div>
+            
+            <div class="service-card-one">
+                <div class="service-icon-one">
+                    <img src="Service.svg" alt="Technical Writing">
+                </div>
+                <h3>Process Analysis & Optimization</h3>
+                <p>On-site or remote process analysis to identify inefficiencies and improve workflows. Optimizing production, design, and prototyping to reduce errors and save time.</p>
+            </div>
+            
+            <div class="service-card-one">
+                <div class="service-icon-one">
+                    <img src="Marketing.svg" alt="Technical Animations">
+                </div>
+                <h3>Knowledge Retention & Training</h3>
+                <p>Creating structured and accessible knowledge repositories for all departments. Developing training programs to ensure accurate knowledge transfer.</p>
+            </div>
+            
+            <div class="service-card-one">
+                <div class="service-icon-one">
+                    <img src="Installation & Integration.svg" alt="Effectiveness Processes">
+                </div>
+                <h3>Technical Writing & Translation</h3>
+                <p>Producing professional documentation, including videos, PDFs, and animations. Translating technical documents into multiple languages with cultural adaptation.</p>
+            </div>
+        </section>
+        
+        <!-- Process Section -->
+        <section class="process-one-page">
+            <div class="process-content">
+                <h2>Our Process</h2>
+                <p>We follow a simple yet effective approach to deliver exceptional results.</p>
+                
+                <div class="process-steps-one">
+                    <div class="process-step-one">
+                        <div class="step-icon">
+                            <img src="wired-outline-1142-form-sheet-questionnaire.gif" alt="Assessment" class="animated-icon">
+                        </div>
+                        <h3>Assessment</h3>
+                        <p>We analyze your needs and identify knowledge gaps</p>
+                    </div>
+                    
+                    <div class="process-step-one">
+                        <div class="step-icon">
+                            <img src="wired-outline-1020-rules-book-guideline (1).gif" alt="Development" class="animated-icon">
+                        </div>
+                        <h3>Development</h3>
+                        <p>We create customized training and documentation solutions</p>
+                    </div>
+                    
+                    <div class="process-step-one">
+                        <div class="step-icon">
+                            <img src="wired-outline-1326-command-window-line copy.gif" alt="Implementation" class="animated-icon">
+                        </div>
+                        <h3>Implementation</h3>
+                        <p>We deploy solutions and provide training</p>
+                    </div>
+                    
+                    <div class="process-step-one">
+                        <div class="step-icon">
+                            <img src="wired-outline-749-interface-settings copy.gif" alt="Optimization" class="animated-icon">
+                        </div>
+                        <h3>Optimization</h3>
+                        <p>We continuously improve based on feedback and results</p>
+                    </div>
+                    
+                    <div class="process-step-one">
+                        <div class="step-icon">
+                            <img src="wired-outline-978-project-management.gif" alt="Management" class="animated-icon">
+                        </div>
+                        <h3>Management</h3>
+                        <p>We ensure long-term success through ongoing support</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="about-one-page">
+            <div class="about-content-one">
+                <h2>Why Choose Navi Tech Aid?</h2>
+                <p>Our core mission is to ensure technical & practical expertise are not just recorded, but fully understood and communicated to be accessible whenever and wherever they are needed.</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h3>Bridging Knowledge Gaps</h3>
+                        <p>We delegate critical information across departments, bridging the gap between Engineering, Manufacturing, Finance, and Support.</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <h3>Visual Understanding</h3>
+                        <p>Seeing is understanding. We transform complex concepts into illustrations, animations, and structured documentation.</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <h3>Long-term Stability</h3>
+                        <p>Clear knowledge transfer reduces errors, improves efficiency, and ensures operational stability regardless of personnel changes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="contact-one-page">
+            <div class="contact-content">
+                <h2>Contact Us</h2>
+                <div class="contact-info-one">
+                    <p>Ready to transform your technical documentation and training?</p>
+                    <p>Email: <a href="mailto:Avi@navitechaid.com">Avi@navitechaid.com</a></p>
+                    <p>Phone: <a href="https://api.whatsapp.com/send/?phone=9720547299396&text&type=phone_number&app_absent=0" target="_blank">053-3795354</a></p>
+                </div>
+                
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/xbjnkdnv" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="4" placeholder="Your Message" required></textarea>
+                    </div>
+                    <input type="hidden" name="_subject" value="NaviTechAid Contact Form Submission">
+                    <input type="hidden" name="_replyto" value="">
+                    <button type="submit" class="submit-btn">Send Message</button>
+                    <p id="form-status"></p>
+                </form>
+                
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/navi-techaid/posts/?feedView=all" class="social-link" target="_blank">LinkedIn</a>
+                    <a href="https://api.whatsapp.com/send/?phone=9720547299396&text&type=phone_number&app_absent=0" class="social-link" target="_blank">WhatsApp</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer-one-page">
+            <img src="logo spin.svg" alt="NaviTechAid Symbol" class="footer-logo-one">
+            <p>&copy; 2025 NaviTechAid. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Flip animation on scroll
+        const heroFlipContainer = document.querySelector('.hero-flip-container');
+        const heroSection = document.querySelector('.hero-one-page');
+        const body = document.body;
+        let hasFlipped = false;
+        let scrollLocked = false;
+        let scrollY = 0;
+        let allowScroll = false;
+        let initialFlipComplete = false;
+        let pageJustLoaded = true;
+        
+        // Prevent accidental flipping right after page load
+        setTimeout(() => {
+            pageJustLoaded = false;
+        }, 1000);
+        
+        // Function to handle flipping card and locking scroll
+        function flipCard() {
+            if (!hasFlipped && !pageJustLoaded) {
+                // Store current scroll position
+                scrollY = window.scrollY;
+                
+                // Add scroll lock class to body
+                body.classList.add('scroll-lock');
+                body.style.top = `-${scrollY}px`;
+                
+                // Set flag for scroll lock
+                scrollLocked = true;
+                
+                // Flip the card
+                heroFlipContainer.classList.add('flipped');
+                hasFlipped = true;
+                
+                // Wait for flip animation and a bit more (3 seconds total)
+                setTimeout(() => {
+                    // Remove scroll lock
+                    body.classList.remove('scroll-lock');
+                    body.style.top = '';
+                    scrollLocked = false;
+                    
+                    // Mark initial flip as complete to allow normal scrolling
+                    initialFlipComplete = true;
+                    
+                    // Restore scroll position
+                    window.scrollTo(0, scrollY);
+                }, 3000);
+            }
+        }
+        
+        // Modified scroll handler
+        window.addEventListener('scroll', function(e) {
+            // If page just loaded or scroll is locked, prevent further scrolling
+            if (pageJustLoaded) {
+                return;
+            }
+            
+            if (scrollLocked) {
+                window.scrollTo(0, scrollY);
+                return;
+            }
+            
+            // For first meaningful scroll, trigger flip
+            if (!hasFlipped && !initialFlipComplete && window.scrollY > 5) {
+                flipCard();
+                e.preventDefault();
+                return;
+            }
+            
+            // Only reset the flip when scrolled all the way back to top
+            // And only if we haven't completed the initial flip sequence
+            if (window.scrollY < 20 && hasFlipped && !initialFlipComplete) {
+                heroFlipContainer.classList.remove('flipped');
+                hasFlipped = false;
+            }
+        }, { passive: false });
+        
+        // Touch event handlers for mobile devices
+        let touchStartY = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        document.addEventListener('touchmove', function(e) {
+            // If page just loaded or scroll is locked, prevent further scrolling
+            if (pageJustLoaded) {
+                return;
+            }
+            
+            if (scrollLocked) {
+                e.preventDefault();
+                return;
+            }
+            
+            const touchY = e.touches[0].clientY;
+            const diff = touchStartY - touchY;
+            
+            // Detect significant downward swipe
+            if (!hasFlipped && !initialFlipComplete && diff > 5) {
+                flipCard();
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Smooth scroll functionality
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target && !scrollLocked) {
+                    window.scrollTo({
+                        top: target.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Scroll indicator click
+        document.querySelector('.scroll-indicator').addEventListener('click', function() {
+            if (!hasFlipped) {
+                flipCard();
+                
+                // After flip animation and scroll lock complete, scroll to services
+                setTimeout(() => {
+                    const servicesSection = document.querySelector('#services');
+                    window.scrollTo({
+                        top: servicesSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }, 3000);
+            } else if (!scrollLocked) {
+                // If already flipped and not locked, go to services
+                const servicesSection = document.querySelector('#services');
+                window.scrollTo({
+                    top: servicesSection.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+        
+        // Language selector functionality
+        const langButtons = document.querySelectorAll('.lang-btn');
+        langButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                langButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                // Here you would typically switch content based on language
+            });
+        });
+    });
+    </script>
+</body>
+</html>
